@@ -1,0 +1,54 @@
+{% extends 'bootstrap/starter.html' %}
+
+{% block title %}Welcome to ringmaster!{% endblock %}
+
+{% block extraless %}
+    <link rel="stylesheet/less" href="/static/css/ringmaster.less" />
+{% endblock extraless %}
+
+{% block project_name %}ringmaster{% endblock %}
+
+{% block nav %}
+    <ul class="nav">
+      <li class="active"><a href="/">Home</a></li>
+      <li><a href="/display/">Display</a></li>
+      <li><a href="/load/">Load</a></li>
+    </ul>
+{% endblock nav %}
+
+{% block content %}
+    <form class="well">
+        <label>Queue Item #</label>
+        <input name="item_number" id="item_number" placeholder="123"></input>
+        <button type="submit" class="btn">Queue this Item</button>
+    </form>
+
+    <form class="well">
+        <input type="hidden" name="next_item" value="next_item"></input>
+        <button type="submit" class="btn">Sell Next Item</button>
+    </form>
+
+    <div id="queue">
+        <h2>Items in the Queue</h2>
+        <ul class="thumbnails">
+        {% for item in upcoming_items %}
+            <li class="span3">
+                <div class="thumbnail">
+                    <img height="150" width="200" src="{{ item.item_urls.0 }}" alt="">
+                    <h5>Item #{{ item.item_number }}</h5>
+                    <p>{{ item.item_description}}</p>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
+
+{% block extrabody %}
+    {{ super() }}
+    <script type="text/javascript" src="/static/js/ringmaster.js"></script>
+    <script>
+        $("#item_number").focus();
+    </script>
+{% endblock %}
+

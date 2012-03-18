@@ -1,0 +1,35 @@
+@import "variables.less";
+@import "bootstrap/mixins.less";
+
+#display_carousel {
+    height: 100%;
+    width: 100%;
+    border: 13px solid black;
+}
+
+#carousel_item_template {
+    display: none;
+}
+
+.item img {
+    .size(100%, 100%);
+}
+
+.item h1 {
+    color: white;
+}
+
+
+.carousel-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40px;
+  padding: 10px 15px 5px;
+  background: @grayDark;
+  background: rgba(0,0,0,.75);
+}
+.carousel-caption {
+  color: @white;
+}

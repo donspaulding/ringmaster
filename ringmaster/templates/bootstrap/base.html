@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="{% block charset %}utf-8{% endblock %}">
+    <title>{% block title %}Bootstrap, from Twitter{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="author" content="{% block author %}{% endblock %}">
+
+    {% block extraless %}{% endblock extraless %}
+    <!-- Le styles -->
+    {% include "bootstrap/includes/head.html" %}
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    {% block icons %}
+        <link rel="shortcut icon" href="/static/images/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/images/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/images/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="/static/images/apple-touch-icon-57-precomposed.png">
+    {% endblock icons %}
+    {% block extrahead %}{% endblock extrahead %}
+  </head>
+
+  <body>
+    {% block content %}
+    {% endblock content %}
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block extrabody %}
+        {% include "bootstrap/includes/body_js.html" %}
+    {% endblock %}
+  </body>
+</html>

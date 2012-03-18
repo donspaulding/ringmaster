@@ -1,0 +1,82 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}2012 Illinois Mennonite Relief Sale{% endblock title %}
+
+{% block extraless %}
+    <link rel="stylesheet/less" href="/static/css/ringmaster.less">
+{% endblock extraless %}    
+
+{% block extrahead %}
+    <style>
+        body{
+            background-color: black;
+        }
+    </style>
+{% endblock extrahead %}
+
+
+{% block content %}
+<div class="container">
+    <div id="display_carousel" class="carousel slide">
+        <div class="carousel-inner">
+        </div>
+    </div>
+</div>
+
+<div id="carousel_item_template" class="item">
+    <img src="/static/images/item_pics/330.JPG">
+    <div class="carousel-caption">
+        <h1>Item #330 - Stoller semi truck</h1>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+{% block extrabody %}
+    {{ super() }}
+    <script>
+        window.console = {log: function(whatever){}};
+        function reload_carousel(){
+            var items = [];
+            for (item_index in window.item_urls){
+                item_url = window.item_urls[item_index];
+                elem = $("#carousel_item_template").clone();
+                elem.removeAttr('id');
+                elem.removeAttr('style');
+                elem.find('img').attr({src: item_url});
+                elem.find('h1').text('Item #'+window.item_number+' - '+window.item_description);
+                items.push(elem);
+            }
+            items[0].addClass('active');
+            var inner = $(".carousel-inner");
+            inner.empty();
+            for (item_index in items){
+                inner.append(items[item_index]);
+            }
+            $('.carousel').carousel(window.carousel_options);
+        }
+
+        function next_up(){
+            $.getJSON('/nextup/', function(data){
+                if (data.item_number && (data.item_number != window.item_number)){
+                    window.item_number = data['item_number'];
+                    window.item_description = data['item_description'];
+                    window.item_urls = data['item_urls'];
+                    reload_carousel();         
+                }
+                setTimeout(next_up, 1000);
+            });
+        }
+        $(function(){
+            window.carousel_options = {
+                interval: 6000
+            };
+            window.item_number = null;
+            window.item_description = "";
+            window.item_urls = null;
+            next_up();
+        });
+    </script>
+{% endblock extrabody %}
