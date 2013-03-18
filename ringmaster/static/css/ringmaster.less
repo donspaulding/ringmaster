@@ -1,35 +1,88 @@
-@import "variables.less";
-@import "bootstrap/mixins.less";
+@import "ringmaster_variables.less";
 
-#display_carousel {
-    height: 100%;
-    width: 100%;
-    border: 13px solid black;
+.rm-body {
+	height: 100%;
+	// padding-top: 50px;
+	background-color: #FFF;
+	color: #000;
+	overflow-y: hidden;
 }
 
-#carousel_item_template {
-    display: none;
+// .navbar-brand {
+// 	max-width: none;
+// }
+
+.rm-container {
+	// padding-top: 20px;
 }
 
-.item img {
-    .size(100%, 100%);
+.rm-sale-items {
+	// height: 100%;
+	// background-color: green;
+	// background-color: @grayLight;
 }
 
-.item h1 {
-    color: white;
+.rm-now-selling {
+	// height: 100px;
+	// background-color: green;
+	// border-bottom: 13px solid #ccc;
+	> h2 {
+		font-size: 3em;
+		border-bottom: 2px solid black;
+	}
+	h3, h4, ul {
+		line-height: 1.25;
+		font-size: 3em;
+	}
 }
 
+.rm-upcoming-items {
+	color: @gray;
+	line-height: 1.25;
 
-.carousel-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 40px;
-  padding: 10px 15px 5px;
-  background: @grayDark;
-  background: rgba(0,0,0,.75);
+	h5, p {
+		font-size: 2.3em;
+	}
+	> h3 {
+		font-size: 2.3em;
+		border-bottom: 1px solid black;
+	}
 }
-.carousel-caption {
-  color: @white;
+
+.rm-upcoming-events {
+	height: 100%;
+	border-left: 1px solid #EEE;
+	color: @gray;
+	// background-color: @grayLight;
+	// font-size: 2em;
+	h3 {
+		font-size: 2em;
+	}
+	.rm-time, .rm-location, .rm-name {
+		font-size: 1.5em;
+		line-height: 1.25;
+
+		// font-weight: bold;
+	}
+	.rm-location {
+		font-size: 1em;
+		color: #666;
+	}
+}
+
+.rm-announcement {
+	// background-color: white;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,0)), to(rgba(255,255,255,1)), color-stop(.4,#FFF));
+	text-align: center;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	> h3 {
+		font-size: 1.5em;		
+	}
+	// height: 20px;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
 }

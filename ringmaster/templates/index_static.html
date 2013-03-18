@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RingMaster spices up your live auction with a large-format display for your audience.">
+    <meta name="author" content="Don Spaulding <donspauldingii@gmail.com>">
+
+    <title>RingMaster</title>
+
+    <!-- Core Styles -->
+    <link href="/static/css/bootstrap/bootstrap.less" rel="stylesheet/less" type="text/css">
+    <link href="/static/css/ringmaster.less" rel="stylesheet/less" type="text/css">
+
+    <!-- Last because it only processes already-linked stylesheets -->
+    <script src="/static/js/less.min.js" type="text/javascript"></script>
+  </head>
+
+  <body class='rm-body'>
+    <!-- Main navbar for all docs pages. -->
+<!--     <div class="navbar navbar-fixed-top bs-docs-navbar">
+      <div class="container">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">2013 Illinois Mennonite Relief Sale</a>
+      </div>
+    </div> -->
+
+
+    <!-- Page content of course! -->
+    <div class="container rm-container">
+      <div class="row-fluid">
+        <div class="span12 rm-sale-items">
+          <div class="row-fluid rm-now-selling">
+            <h2>Now Selling</h2>
+            <div class="row-fluid span11 offset1" data-bind="with: now_selling">
+              <a data-bind="attr: {id: 'item_number_'+number}"></a>
+              <h3 data-bind="visible: number">Item # <span data-bind="text: number">324</span></h3>
+              <h4 data-bind="text: description">Ceramic Doll</h4>
+              <ul class="rm-item-details" data-bind="foreach: details">
+                <li data-bind="text: $data">American Girl brand</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row-fluid rm-upcoming-items">
+            <h3>Upcoming Items</h3>
+            <div class="span11 offset1" data-bind="foreach: upcoming_items">
+              <div class="row-fluid">
+                <a data-bind="attr: {id: 'item_number_'+number}"></a>
+                <h5>Item #<span data-bind="text: number">325</span></h5>
+                <p data-bind="text: description">Lazy Susan</p>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- .rm-sale-items -->
+
+<!--         <div class="span3 rm-upcoming-events">
+          <h3>Schedule</h3>
+          <dl data-bind="foreach: upcoming_events">
+              <dt>
+                <span class="rm-time" data-bind="text: name">10:30 AM </span>
+                <div class="rm-location" data-bind="visible: Boolean(location)">
+                  (<span data-bind="text: location">Auction Ring</span>)
+                </div>
+              </dt>
+              <dd class="rm-name" data-bind="text: name">Quilt Auction</dd>
+          </dl>
+        </div>
+ -->      </div>
+    </div>
+
+
+    <!-- Main docs footer (social buttons, copyright, etc). -->
+    <footer>
+      <div class="rm-announcement">
+        <h3 data-bind="html:announcement"></h3>
+      </div>
+    </footer>
+
+    <!-- JS and analytics only. -->
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/posse.js"></script>
+    <script src="/static/js/knockout.js"></script>
+    <script>
+      function NowSellingVM() {
+          var self = this;
+       
+          self.upcoming_items = ko.observableArray([
+              { number: "325", description: "ERTL Tractor", details: [""] },
+              { number: "326", description: "Rocking Chair that really rocks really well", details: [""] },
+              { number: "327", description: "Yet Another Item", details: [""] },
+              { number: "328", description: "Stuff to be sold", details: [""] }
+          ]);
+
+          self.now_selling = ko.observable({
+            number: "322",
+            description: "Ceramic Doll",
+            details: ["Real Ceramic!", "American Girl brand"]
+          });
+
+          self.announcement = ko.observable("Bid Early, Bid Often!");
+
+          self.upcoming_events = ko.observableArray([
+            { time: "10:30AM", name: "Quilt Auction", location: "Auction Ring"},
+            { time: "11:30AM", name: "Children's Auction", location: "10,000 Villages"},
+            { time: "12:00PM", name: "General Auction", location: "Auction Ring"},
+          ]);
+
+          self.update = function(data){
+            self.upcoming_items(data.upcoming_items);
+            self.now_selling(data.now_selling);
+            self.announcement(data.announcement);
+            self.upcoming_events(data.upcoming_events);
+          }
+
+          self.force_update = function(){
+            $.getJSON("/get/all/", self.update);
+          }
+
+          self.force_refresh = function(){
+            window.location = window.location;
+          }
+
+          self.scroll_to = function(number){
+            var sel = "#item_number_"+number;
+            // $(sel).parent().css("font-size", "2em")
+            $(window).scrollTo(sel);
+          }
+      }
+      
+      vm = new NowSellingVM();
+
+      new Posse({
+        // url: "/get/all/",
+        handlers: {
+          update: vm.update,
+          force_update: vm.force_update,
+          force_refresh: vm.force_refresh,
+          scroll_to: vm.scroll_to,
+        }
+      });
+
+      ko.applyBindings(vm);
+
+      vm.force_update();
+    </script>
+  </body>
+</html>
